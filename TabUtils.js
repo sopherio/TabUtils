@@ -43,18 +43,18 @@ var TabUtils = new (function () {
 		}, Math.random() * 50);
 	}
 
-	this.BroadcastMessageToAllTabs = function (messageId, eventData, includCurrentTab) {
-		if (!window.localStorage) return; //no local storage. old browser
+    this.BroadcastMessageToAllTabs = function (messageId, eventData, includeCurrentTab) {
+        if (!window.localStorage) return; //no local storage. old browser
 
-		//this triggers 'storage' event for all other tabs except the current tab
-		localStorage.setItem(keyPrefix + "event" + messageId, eventData);
+        //this triggers 'storage' event for all other tabs except the current tab
+        localStorage.setItem(keyPrefix + "event" + messageId, eventData);
 
-		//now we also need to manually execute handler in the current tab too, because current tab does not get 'storage' events
-        if (includCurrentTab && includCurrentTab == true) {
+        //now we also need to manually execute handler in the current tab too, because current tab does not get 'storage' events
+        if (includeCurrentTab && includeCurrentTab === true) {
             try { handlers[messageId](eventData); } //"try" in case handler not found
             catch (x) { }
         }
-	}
+    }
 
 	var handlers = {};
 
